@@ -11,13 +11,8 @@ import glob
 with open('config.json','r') as f:
     config = json.load(f) 
 
-input_folder_path = config['input_folder_path']
-output_folder_path = config['output_folder_path']
-
-
-
 #############Function for data ingestion
-def merge_multiple_dataframe():
+def merge_multiple_dataframe(input_folder_path, output_folder_path):
     #check for datasets, compile them together, and write to an output file
     
     # Define dataframe
@@ -42,4 +37,7 @@ def merge_multiple_dataframe():
         f.write('\n'.join(csv_path_list))
     
 if __name__ == '__main__':
-    merge_multiple_dataframe()
+    input_folder_path = config['input_folder_path']
+    output_folder_path = config['output_folder_path']
+    
+    merge_multiple_dataframe(input_folder_path, output_folder_path)
