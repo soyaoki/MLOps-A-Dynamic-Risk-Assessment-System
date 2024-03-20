@@ -12,9 +12,11 @@ import json
 with open('config.json','r') as f:
     config = json.load(f) 
 
-#################Function for training the model
-def train_model(dataset_csv_path, model_path):
+dataset_csv_path = os.path.join(config['output_folder_path'])
+model_path = os.path.join(config['output_model_path']) 
     
+#################Function for training the model
+def train_model():
     #use this logistic regression for training
     model_lr = LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
                                   intercept_scaling=1, l1_ratio=None, max_iter=100,
@@ -32,7 +34,4 @@ def train_model(dataset_csv_path, model_path):
     pickle.dump(model_lr, open(os.path.join(model_path, 'trainedmodel.pkl'), 'wb'))
     
 if __name__ == '__main__':
-    dataset_csv_path = os.path.join(config['output_folder_path']) 
-    model_path = os.path.join(config['output_model_path']) 
-    
-    train_model(dataset_csv_path, model_path)
+    train_model()
