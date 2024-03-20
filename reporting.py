@@ -27,7 +27,7 @@ def score_model():
     
     fig = metrics.ConfusionMatrixDisplay(metrics.confusion_matrix(y_test, y_pred))
     fig.plot()
-    plt.savefig(os.path.join(model_path, 'confusionmatrix.png'))
+    plt.savefig(os.path.join(model_path, 'confusionmatrix2.png'))
 
 if __name__ == '__main__':    
     score_model()

@@ -18,7 +18,7 @@ response4 = requests.get(URL + '/diagnostics').content #put an API call here
 responses = [response1, '\n', '\n', response2, '\n', '\n', response3, '\n', '\n', response4]#combine reponses here
 
 #write the responses to your workspace
-with open(os.path.join(config['output_model_path'], 'apireturns.txt'), 'w') as f:
+with open(os.path.join(config['output_model_path'], 'apireturns2.txt'), 'w') as f:
     f.write(str(responses))
 
 
