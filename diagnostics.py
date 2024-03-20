@@ -11,13 +11,17 @@ import subprocess
 with open('config.json','r') as f:
     config = json.load(f) 
 
+model_path = os.path.join(config['output_model_path']) 
+test_data_path = os.path.join(config['test_data_path']) 
+dataset_csv_path = os.path.join(config['output_folder_path']) 
+
 ##################Function to get model predictions
-def model_predictions(model_path, test_data_path):
+def model_predictions():
     #read the deployed model and a test dataset, calculate predictions
     model = pickle.load(open(os.path.join(model_path, 'trainedmodel.pkl'), 'rb'))
     
     df_test = pd.read_csv(os.path.join(test_data_path, 'testdata.csv'))
-    X_test= df_test[['lastmonth_activity', 'lastyear_activity', 'number_of_employees']]
+    X_test = df_test[['lastmonth_activity', 'lastyear_activity', 'number_of_employees']]
     y_test = df_test['exited']
 
     y_pred = model.predict(X_test)
@@ -25,16 +29,16 @@ def model_predictions(model_path, test_data_path):
     return y_pred #return value should be a list containing all predictions
 
 ##################Function to get summary statistics
-def dataframe_summary(dataset_csv_path):
+def dataframe_summary():
     #calculate summary statistics here
     df = pd.read_csv(os.path.join(dataset_csv_path, 'finaldata.csv'))
-    return list(df.describe()) #return value should be a list containing all summary statistics
+    return df.describe() #return value should be a list containing all summary statistics
 
 ##################Function to check for missing data
-def check_missing(dataset_csv_path):
+def check_missing():
     #count NA values and calculate rates of NA
     df = pd.read_csv(os.path.join(dataset_csv_path, 'finaldata.csv'))
-    return list(df.isna().mean()) #return a list of rates of NA
+    return df.isna().mean() #return a list of rates of NA
 
 ##################Function to get timings
 def execution_time():
@@ -60,15 +64,10 @@ def outdated_packages_list():
     #get a list of outdated packages
     return subprocess.check_output(['python', '-m', 'pip', 'list', '--outdated']).decode()
 
-
 if __name__ == '__main__':
-    model_path = os.path.join(config['output_model_path']) 
-    test_data_path = os.path.join(config['test_data_path']) 
-    dataset_csv_path = os.path.join(config['output_folder_path']) 
-    
-    model_predictions(model_path, test_data_path)
-    dataframe_summary(dataset_csv_path)
-    check_missing(dataset_csv_path)
+    model_predictions()
+    dataframe_summary()
+    check_missing()
     execution_time()
     outdated_packages_list()
 
