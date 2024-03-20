@@ -8,25 +8,26 @@ import seaborn as sns
 import json
 import os
 
+from diagnostics import model_predictions
 
 
 ###############Load config.json and get path variables
 with open('config.json','r') as f:
     config = json.load(f) 
-
-dataset_csv_path = os.path.join(config['output_folder_path']) 
-
-
-
+ 
+model_path = os.path.join(config['output_model_path']) 
+test_data_path = os.path.join(config['test_data_path']) 
 
 ##############Function for reporting
 def score_model():
     #calculate a confusion matrix using the test data and the deployed model
     #write the confusion matrix to the workspace
+    y_pred = model_predictions()
+    y_test = pd.read_csv(os.path.join(test_data_path, 'testdata.csv'))['exited']
+    
+    fig = metrics.ConfusionMatrixDisplay(metrics.confusion_matrix(y_test, y_pred))
+    fig.plot()
+    plt.savefig(os.path.join(model_path, 'confusionmatrix.png'))
 
-
-
-
-
-if __name__ == '__main__':
+if __name__ == '__main__':    
     score_model()
